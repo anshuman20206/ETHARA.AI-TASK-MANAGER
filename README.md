@@ -1,119 +1,260 @@
-# Team Task Manager
+# Team Task Manager (Full-Stack)
 
-A production-ready full-stack task management app with Spring Boot REST APIs, JWT authentication, role-based access control, React + Vite, Tailwind CSS, and MySQL.
+A full-stack web application designed to help teams manage projects, assign tasks, and track progress with role-based access control.
 
-## Structure
+This project demonstrates practical full-stack development skills including backend architecture, authentication, database design, and a clean, responsive frontend.
 
-```text
-backend/   Spring Boot API for auth, projects, tasks, users
-frontend/  React Vite app with Tailwind UI
+---
+
+## Live Demo
+
+Frontend (Vercel): https://ethara-ai-task-manager-one.vercel.app
+Backend (Render): https://ethara-ai-task-manager.onrender.com
+
+---
+
+## Features
+
+### Authentication and Authorization
+
+* Secure signup and login system
+* JWT-based authentication
+* Role-based access:
+
+  * Admin: can manage projects and tasks
+  * Member: can view and update assigned tasks
+
+---
+
+### Project Management
+
+* Create and manage projects
+* Add or remove team members
+* View all projects associated with a user
+
+---
+
+### Task Management
+
+* Create tasks within projects
+* Assign tasks to users
+* Update task status:
+
+  * TODO
+  * IN_PROGRESS
+  * DONE
+* Set task priority:
+
+  * LOW
+  * MEDIUM
+  * HIGH
+* Set due dates
+* Filter and sort tasks
+* Highlight overdue tasks
+
+---
+
+### Dashboard
+
+* Overview of:
+
+  * Total tasks
+  * Completed tasks
+  * Pending tasks
+  * Overdue tasks
+* Recent tasks display for quick tracking
+
+---
+
+## Tech Stack
+
+### Backend
+
+* Java Spring Boot
+* Spring Security with JWT
+* JPA / Hibernate
+* MySQL (Railway)
+
+### Frontend
+
+* React (Vite)
+* Tailwind CSS
+* Axios
+* React Router
+
+### Deployment
+
+* Backend: Render
+* Frontend: Vercel
+* Database: Railway MySQL
+
+---
+
+## Project Structure
+
+```
+team-task-manager/
+│
+├── backend/
+│   ├── controller/
+│   ├── service/
+│   ├── repository/
+│   ├── entity/
+│   ├── dto/
+│   ├── config/
+│   └── security/
+│
+├── frontend/
+│   ├── src/
+│   │   ├── components/
+│   │   ├── pages/
+│   │   ├── services/
+│   │   ├── routes/
+│   │   └── utils/
+│   └── public/
+│
+└── README.md
 ```
 
-## Backend Setup
+---
 
-Requirements: Java 17 and Maven.
+## Environment Variables
 
-```bash
-cd backend
-mvn spring-boot:run
+### Backend (Render)
+
 ```
-
-Environment variables:
-
-```env
 MYSQL_URL=jdbc:mysql://tramway.proxy.rlwy.net:33665/railway
 MYSQL_USER=root
-MYSQL_PASSWORD=JjBsmlBrkChhvxvoYghUdrHgoroAeUyc
-JWT_SECRET=replace-with-a-long-random-secret-at-least-32-chars
-JWT_EXPIRATION_MS=86400000
-CORS_ALLOWED_ORIGINS=http://localhost:5173,https://*.vercel.app
+MYSQL_PASSWORD=your_password
+JWT_SECRET=your_secret_key
 PORT=8080
 ```
 
-The backend uses `server.port=${PORT:8080}` for Render dynamic ports.
+In `application.properties`:
 
-## Frontend Setup
+```
+spring.datasource.url=${MYSQL_URL}
+spring.datasource.username=${MYSQL_USER}
+spring.datasource.password=${MYSQL_PASSWORD}
 
-Requirements: Node.js 18+.
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.show-sql=true
+server.port=${PORT:8080}
+```
 
-```bash
+---
+
+### Frontend (Vercel)
+
+```
+VITE_API_BASE_URL=https://ethara-ai-task-manager.onrender.com/api
+```
+
+---
+
+## Installation and Setup
+
+### Backend
+
+1. Navigate to backend folder:
+
+```
+cd backend
+```
+
+2. Build and run:
+
+```
+mvn clean install
+mvn spring-boot:run
+```
+
+---
+
+### Frontend
+
+1. Navigate to frontend folder:
+
+```
 cd frontend
+```
+
+2. Install dependencies:
+
+```
 npm install
+```
+
+3. Start development server:
+
+```
 npm run dev
 ```
 
-Create `frontend/.env`:
-
-```env
-VITE_API_BASE_URL=http://localhost:8080/api
-```
-
-For Vercel production:
-
-```env
-VITE_API_BASE_URL=https://your-backend.onrender.com/api
-```
+---
 
 ## API Endpoints
 
-Auth:
+### Authentication
 
-```text
-POST /api/auth/signup
-POST /api/auth/login
-```
+* POST /api/auth/signup
+* POST /api/auth/login
 
-Projects:
+### Projects
 
-```text
-POST /api/projects
-GET /api/projects
-POST /api/projects/{id}/members
-```
+* POST /api/projects
+* GET /api/projects
+* POST /api/projects/{id}/members
 
-Tasks:
+### Tasks
 
-```text
-POST /api/tasks
-GET /api/tasks?status=TODO&priority=HIGH&projectId=1
-PUT /api/tasks/{id}
-GET /api/tasks/overdue
-```
+* POST /api/tasks
+* GET /api/tasks
+* PUT /api/tasks/{id}
+* GET /api/tasks/overdue
 
-Users:
-
-```text
-GET /api/users
-```
-
-## Role Rules
-
-Admins can create projects, add members, create tasks, assign users, and view all project tasks.
-
-Members can view their assigned tasks and update task status only. These checks are enforced in the Spring service layer, not only in the UI.
+---
 
 ## Deployment
 
-### Backend on Render
+### Backend (Render)
 
-Use the included `backend/Dockerfile`, or connect the repo and point Render at the backend Dockerfile. Set:
+* Connected via GitHub repository
+* Environment variables configured for database and JWT
+* Runs on dynamic port assigned by Render
 
-```env
-MYSQL_URL=jdbc:mysql://tramway.proxy.rlwy.net:33665/railway
-MYSQL_USER=root
-MYSQL_PASSWORD=JjBsmlBrkChhvxvoYghUdrHgoroAeUyc
-JWT_SECRET=replace-with-a-long-random-production-secret
-CORS_ALLOWED_ORIGINS=https://your-frontend.vercel.app,https://*.vercel.app
-```
+### Frontend (Vercel)
 
-Do not use `mysql://` or `mysql.railway.internal`.
+* Connected via GitHub repository
+* Uses environment variable for API base URL
+* Built using Vite and deployed as static assets
 
-### Frontend on Vercel
+---
 
-Set the project root to `frontend`, build command to `npm run build`, output directory to `dist`, and configure:
+## Key Highlights
 
-```env
-VITE_API_BASE_URL=https://your-backend.onrender.com/api
-```
+* Clean and modular backend architecture
+* Secure authentication using JWT
+* Proper relational database design
+* Role-based access control enforced on backend
+* Responsive and modern UI using Tailwind CSS
+* Fully deployed and accessible online
 
-`frontend/vercel.json` rewrites routes to `index.html` for React Router.
+---
+
+## Future Improvements
+
+* Notifications for deadlines
+* Email integration
+* File attachments in tasks
+* Activity logs for projects
+* Pagination and search optimization
+
+---
+
+## Author
+
+Anshuman Singh
+B.Tech Student | Full Stack Developer
+
+---
