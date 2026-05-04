@@ -9,6 +9,7 @@ This project demonstrates practical full-stack development skills including back
 ## Live Demo
 
 Frontend (Vercel): https://ethara-ai-task-manager-one.vercel.app
+
 Backend (Render): https://ethara-ai-task-manager.onrender.com
 
 ---
