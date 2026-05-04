@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: team-task-manager-api
+    env: docker
+    plan: free
+    dockerfilePath: ./backend/Dockerfile
+    envVars:
+      - key: MYSQL_URL
+        value: jdbc:mysql://tramway.proxy.rlwy.net:33665/railway
+      - key: MYSQL_USER
+        value: root
+      - key: MYSQL_PASSWORD
+        sync: false
+      - key: JWT_SECRET
+        sync: false
+      - key: CORS_ALLOWED_ORIGINS
+        value: http://localhost:5173,https://*.vercel.app
